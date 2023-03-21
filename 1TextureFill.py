@@ -1,5 +1,3 @@
-
-
 from copy import copy
 import os
 import math
@@ -17,6 +15,76 @@ bl_info = {
     "category": "Scene",
 }
 
+bpy.types.Object.ceiling_texture_scale_offset = bpy.props.FloatVectorProperty(
+    name="Ceiling Scale Offset",
+    default=(1, 1),
+    min=0,
+    step=10,
+    precision=3,
+    size=2
+)
+bpy.types.Object.wall_texture_scale_offset = bpy.props.FloatVectorProperty(
+    name="Wall Scale Offset",
+    default=(1, 1),
+    min=0,
+    step=10,
+    precision=3,
+    size=2
+)
+bpy.types.Object.floor_texture_scale_offset = bpy.props.FloatVectorProperty(
+    name="Floor Scale Offset",
+    default=(1, 1),
+    min=0,
+    step=10,
+    precision=3,
+    size=2
+)
+bpy.types.Object.ceiling_texture_rotation = bpy.props.FloatProperty(
+    name="Ceiling Rotation",
+    default=0,
+    min=0,
+    step=10,
+    precision=3,
+)
+bpy.types.Object.wall_texture_rotation = bpy.props.FloatProperty(
+    name="Wall Rotation",
+    default=0,
+    min=0,
+    step=10,
+    precision=3,
+)
+bpy.types.Object.floor_texture_rotation = bpy.props.FloatProperty(
+    name="Floor Rotation",
+    default=0,
+    min=0,
+    step=10,
+    precision=3,
+)
+
+bpy.types.Object.ceiling_texture_offset = bpy.props.FloatVectorProperty(
+    name="Ceiling Offset",
+    default=(0, 0),
+    min=0,
+    step=10,
+    precision=3,
+    size=2
+)
+bpy.types.Object.wall_texture_offset = bpy.props.FloatVectorProperty(
+    name="Wall Scale Offset",
+    default=(0, 0),
+    min=0,
+    step=10,
+    precision=3,
+    size=2
+)
+bpy.types.Object.floor_texture_offset = bpy.props.FloatVectorProperty(
+    name="Floor Offset",
+    default=(0, 0),
+    min=0,
+    step=10,
+    precision=3,
+    size=2
+)
 
 class MyClass(bpy.types.Operator):
     """FillTexture"""      # Use this as a tooltip for menu items and buttons.
@@ -79,38 +147,50 @@ class MyClass(bpy.types.Operator):
                     luv.uv.x = ((l.vert.co.y * objectScale[1]) + objectLocation[1])
                     luv.uv.y = ((l.vert.co.z * objectScale[2]) + objectLocation[2])
                     luv.uv = MyClass.rotate2D(luv.uv, source_obj.wall_texture_rotation)
-                    luv.uv.x =  MyClass.translate(MyClass.scale(luv.uv.x, source_obj.wall_texture_scale_offset[0]), source_obj.wall_texture_scale_offset[2])
-                    luv.uv.y =  MyClass.translate(MyClass.scale(luv.uv.y, source_obj.wall_texture_scale_offset[1]), source_obj.wall_texture_scale_offset[3])
+                    luv.uv.x = MyClass.translate(MyClass.scale(luv.uv.x, source_obj.wall_texture_scale_offset[0]), 0)
+                    luv.uv.y = MyClass.translate(MyClass.scale(luv.uv.y, source_obj.wall_texture_scale_offset[1]), 0)
+                    luv.uv.x = luv.uv.x + source_obj.wall_texture_offset[0];
+                    luv.uv.y = luv.uv.y + source_obj.wall_texture_offset[1];
                 if faceDirection == "-x":
                     luv.uv.x = ((l.vert.co.y * objectScale[1]) + objectLocation[1])
                     luv.uv.y = ((l.vert.co.z * objectScale[2]) + objectLocation[2])
                     luv.uv = MyClass.rotate2D(luv.uv, source_obj.wall_texture_rotation)
-                    luv.uv.x =  MyClass.translate(MyClass.scale(luv.uv.x, source_obj.wall_texture_scale_offset[0]), source_obj.wall_texture_scale_offset[2])
-                    luv.uv.y =  MyClass.translate(MyClass.scale(luv.uv.y, source_obj.wall_texture_scale_offset[1]), source_obj.wall_texture_scale_offset[3])
+                    luv.uv.x = MyClass.translate(MyClass.scale(luv.uv.x, source_obj.wall_texture_scale_offset[0]), 0)
+                    luv.uv.y = MyClass.translate(MyClass.scale(luv.uv.y, source_obj.wall_texture_scale_offset[1]), 0)
+                    luv.uv.x = luv.uv.x + source_obj.wall_texture_offset[0];
+                    luv.uv.y = luv.uv.y + source_obj.wall_texture_offset[1];
                 if faceDirection == "y":
                     luv.uv.x = ((l.vert.co.x * objectScale[0]) + objectLocation[0])
                     luv.uv.y = ((l.vert.co.z * objectScale[2]) + objectLocation[2])
                     luv.uv = MyClass.rotate2D(luv.uv, source_obj.wall_texture_rotation)
-                    luv.uv.x =  MyClass.translate(MyClass.scale(luv.uv.x, source_obj.wall_texture_scale_offset[0]), source_obj.wall_texture_scale_offset[2])
-                    luv.uv.y =  MyClass.translate(MyClass.scale(luv.uv.y, source_obj.wall_texture_scale_offset[1]), source_obj.wall_texture_scale_offset[3])
+                    luv.uv.x = MyClass.translate(MyClass.scale(luv.uv.x, source_obj.wall_texture_scale_offset[0]), 0)
+                    luv.uv.y = MyClass.translate(MyClass.scale(luv.uv.y, source_obj.wall_texture_scale_offset[1]), 0)
+                    luv.uv.x = luv.uv.x + source_obj.wall_texture_offset[0];
+                    luv.uv.y = luv.uv.y + source_obj.wall_texture_offset[1];
                 if faceDirection == "-y":
                     luv.uv.x = ((l.vert.co.x * objectScale[0]) + objectLocation[0])
                     luv.uv.y = ((l.vert.co.z * objectScale[2]) + objectLocation[2])
                     luv.uv = MyClass.rotate2D(luv.uv, source_obj.wall_texture_rotation)
-                    luv.uv.x =  MyClass.translate(MyClass.scale(luv.uv.x, source_obj.wall_texture_scale_offset[0]), source_obj.wall_texture_scale_offset[2])
-                    luv.uv.y =  MyClass.translate(MyClass.scale(luv.uv.y, source_obj.wall_texture_scale_offset[1]), source_obj.wall_texture_scale_offset[3])
+                    luv.uv.x =  MyClass.translate(MyClass.scale(luv.uv.x, source_obj.wall_texture_scale_offset[0]), 0)
+                    luv.uv.y =  MyClass.translate(MyClass.scale(luv.uv.y, source_obj.wall_texture_scale_offset[1]), 0)
+                    luv.uv.x = luv.uv.x + source_obj.wall_texture_offset[0];
+                    luv.uv.y = luv.uv.y + source_obj.wall_texture_offset[1];
                 if faceDirection == "z":
                     luv.uv.x = ((l.vert.co.x * objectScale[0]) + objectLocation[0])
                     luv.uv.y = ((l.vert.co.y * objectScale[1]) + objectLocation[1])
                     luv.uv = MyClass.rotate2D(luv.uv, source_obj.ceiling_texture_rotation)
-                    luv.uv.x =  MyClass.translate(MyClass.scale(luv.uv.x, source_obj.ceiling_texture_scale_offset[0]), source_obj.ceiling_texture_scale_offset[2])
-                    luv.uv.y =  MyClass.translate(MyClass.scale(luv.uv.y, source_obj.ceiling_texture_scale_offset[1]), source_obj.ceiling_texture_scale_offset[3])
+                    luv.uv.x =  MyClass.translate(MyClass.scale(luv.uv.x, source_obj.ceiling_texture_scale_offset[0]), 0)
+                    luv.uv.y =  MyClass.translate(MyClass.scale(luv.uv.y, source_obj.ceiling_texture_scale_offset[1]), 0)
+                    luv.uv.x = luv.uv.x + source_obj.ceiling_texture_offset[0];
+                    luv.uv.y = luv.uv.y + source_obj.ceiling_texture_offset[1];
                 if faceDirection == "-z":
                     luv.uv.x = ((l.vert.co.x * objectScale[0]) + objectLocation[0])
                     luv.uv.y = ((l.vert.co.y * objectScale[1]) + objectLocation[1])
                     luv.uv = MyClass.rotate2D(luv.uv, source_obj.floor_texture_rotation)
-                    luv.uv.x =  MyClass.translate(MyClass.scale(luv.uv.x, source_obj.floor_texture_scale_offset[0]), source_obj.floor_texture_scale_offset[2])
-                    luv.uv.y =  MyClass.translate(MyClass.scale(luv.uv.y, source_obj.floor_texture_scale_offset[1]), source_obj.floor_texture_scale_offset[3])
+                    luv.uv.x =  MyClass.translate(MyClass.scale(luv.uv.x, source_obj.floor_texture_scale_offset[0]), 0)
+                    luv.uv.y =  MyClass.translate(MyClass.scale(luv.uv.y, source_obj.floor_texture_scale_offset[1]), 0)
+                    luv.uv.x = luv.uv.x + source_obj.floor_texture_offset[0];
+                    luv.uv.y = luv.uv.y + source_obj.floor_texture_offset[1];
         bm.to_mesh(mesh)
         bm.free()
         source_obj.data = mesh
@@ -152,6 +232,12 @@ class TexturePanel(bpy.types.Panel):
         col.prop(ob, "wall_texture_rotation")
         col = layout.row(align=True)
         col.prop(ob, "floor_texture_rotation")
+        col = layout.row(align=True)
+        col.prop(ob, "ceiling_texture_offset")
+        col = layout.row(align=True)
+        col.prop(ob, "wall_texture_offset")
+        col = layout.row(align=True)
+        col.prop(ob, "floor_texture_offset")
         col = layout.row(align=True)
         col.operator("scene.filltexture", text="APPLY", icon="MOD_BUILD")
 
